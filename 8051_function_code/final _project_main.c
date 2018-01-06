@@ -1,5 +1,6 @@
 #include <AT89X52.h>
 #include <stdlib.h>
+#include "LCD.h"
 
 #define   s     65536
 #define   T     11059200/12
@@ -20,13 +21,13 @@
 #define   LAH   s-t/880
 #define   TIH   s-t/998
 
-unsigned int Table1[] = {TI,LA,SO,LA,TI,TI,TI,0,LA,LA,LA,0,TI,REH,REH};
+unsigned short Table1[] = {TI,LA,SO,LA,TI,TI,TI};
 //unsigned int Table1[] = {TI,LA,SO,LA,TI,TI,TI,0,LA,LA,LA,0,TI,REH,REH,0,TI,LA,SO,LA,TI,TI,TI,0,LA,LA,TI,LA,SO};
-unsigned int Table2[] = {SO,MI,MI,0,FA,RE,RE,0,DO,RE,MI,FA,SO,SO,SO};
+unsigned short Table2[] = {SO,MI,MI,0,FA,RE,RE};
 //unsigned int Table2[] = {SO,MI,MI,0,FA,RE,RE,0,DO,RE,MI,FA,SO,SO,SO,0,SO,MI,MI,0,FA,RE,RE,0,DO,MI,SO,SO,MI};
-unsigned int Table3[] = {TI,TI,DOH,REH,REH,DOH,TI,LA,SO,SO,LA,TI,TI,LA,LA};
-//unsigned int Table3[]= {};
-unsigned int Song[16]= {0};
+unsigned short Table3[] = {TI,TI,DOH,REH,REH,DOH,TI,LA};
+//unsigned int Table3[]= {TI,TI,DOH,REH,REH,DOH,TI,LA,SO,SO,LA,TI,TI,LA,LA};
+unsigned int Song[9]= {0};
 unsigned int length;
 unsigned int copylength1 = sizeof(Table1) / sizeof(Table1[0]);
 unsigned int copylength2 = sizeof(Table2) / sizeof(Table2[0]);
@@ -58,24 +59,37 @@ void delay_1m(unsigned int dly)
 void setsong()
 {
     unsigned int i;
+    showLCD(String2);
 	while (P0_5 & P0_6 & P0_7)
         ;
     if (!P0_5) {
-        for (i = 0; i < copylength3; i++)
+        for (i = 0; i < copylength3; i++) {
             Song[i] = Table3[i];
+            if (i < 6)
+                String2[i+5] = copystring3[i];
+        }
         length = copylength3;
+        showLCD(String2);
         return;
     }
     if (!P0_6) {
-        for (i = 0; i < copylength2; i++)
+        for (i = 0; i < copylength2; i++) {
             Song[i] = Table2[i];
+            if (i < 6)
+                String2[i+5] = copystring2[i];
+        }
         length = copylength2;
+        showLCD(String2);
         return;
     }
     if (!P0_7) {
-        for (i = 0; i < copylength1; i++)
+        for (i = 0; i < copylength1; i++) {
             Song[i] = Table1[i];
+            if (i < 6)
+                String2[i+5] = copystring1[i];
+        }
         length = copylength1;
+        showLCD(String2);
         return;
     }
 }
@@ -90,7 +104,7 @@ void main()
   while(1)
   {
     setsong();
-    for(i=0;i<=length;i++)
+    for(i=0;i<length;i++)
     {
 	  temp=Song[i];
 	  switch (temp) {
@@ -116,7 +130,7 @@ void main()
 	  TR0=0;
 	  P2 = 0xFF;
 	  P1 = 0xFF;
+	  Song[i] = 0;
     }
   }
 }
-
