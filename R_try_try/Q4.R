@@ -12,4 +12,4 @@ for(n in c(1 : num))
   }else{
     y[n] <- x[n]^2+4*x[n]-7
   }
-#??????4
+#Question4
