@@ -8,7 +8,7 @@
  int main()
  {
          system("clear");
-	 srand( time(NULL) );
+         srand( time(NULL) );
          FILE *export_file = NULL;        //declare pointers
          FILE *IO_direction = NULL;
 
@@ -24,7 +24,7 @@
 
          printf("Please select the mode you want: \n A/) User mode\t B/) Rand mode: ");
          scanf("%s", &selection);
-/********************************User mode********************************************/   
+/********************************User mode********************************************/
          if(selection == 'a' || selection == 'A'){
             system("clear");
             printf("User mode:\n");
@@ -36,7 +36,7 @@
                 scanf("%d", tptr);
             }
          }
-/********************************Rand mode********************************************/         
+/********************************Rand mode********************************************/
          else if(selection == 'b' || selection == 'B'){
             system("clear");
             printf("Rand mode:\n");
@@ -53,7 +53,7 @@
 		printf("%d", times);
             }
          }
-/********************************Wrong mode********************************************/  
+/********************************Wrong mode********************************************/
          else
             printf("Wrong select, good bye!\n");
  }
